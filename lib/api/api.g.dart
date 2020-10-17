@@ -74,12 +74,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<CityModel> getAllPhotos(auth) async {
+  Future<List<AdvertismentImageModel>> getAllPhotos(auth) async {
     ArgumentError.checkNotNull(auth, 'auth');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
+    final _result = await _dio.request<List<dynamic>>(
         'api/v1/advertisement/get',
         queryParameters: queryParameters,
         options: RequestOptions(
@@ -88,7 +88,10 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = CityModel.fromJson(_result.data);
+    var value = _result.data
+        .map((dynamic i) =>
+            AdvertismentImageModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:retrofit/http.dart';
 import 'package:spiri/features/signupPage/models/getArea.model.dart';
 import 'package:spiri/features/signupPage/models/login.model.dart';
+import 'package:spiri/model/advertisementModel.dart';
 import 'package:spiri/model/getdetailsSignUp.dart';
 import 'package:spiri/res/constant.dart';
 
@@ -25,5 +26,6 @@ abstract class RestClient {
   Future<LoginModel> createUser(@Body() body);
 
   @GET("api/v1/advertisement/get")
-  Future<CityModel> getAllPhotos(@Header(authorization) auth);
+  Future<List<AdvertismentImageModel>> getAllPhotos(
+      @Header(authorization) auth);
 }

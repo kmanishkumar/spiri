@@ -69,7 +69,7 @@ class _SignUpPageState extends State<SignUpPage>
     final _asyncLoader = AsyncLoader(
       key: _asynckey,
       initState: () => SignUpPageRepo.getAllCity(),
-      renderLoad: () => CircularProgressIndicator(),
+      renderLoad: () => Center(child: CircularProgressIndicator()),
       renderError: ([err]) => Text("Error"),
       renderSuccess: ({data}) => _generateBody(data),
     );
