@@ -17,11 +17,11 @@ class _RestClient implements RestClient {
   String baseUrl;
 
   @override
-  Future<CityModel> getAllCity() async {
+  Future<List<CityModel>> getAllCity() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('city/get',
+    final _result = await _dio.request<List<dynamic>>('city/get',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -29,7 +29,9 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = CityModel.fromJson(_result.data);
+    var value = _result.data
+        .map((dynamic i) => CityModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

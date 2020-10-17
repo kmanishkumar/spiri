@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:spiri/features/dashboard/repo/dashboard.repo.dart';
-import 'package:spiri/features/signupPage/signupPageRepo/signupPageRepo.dart';
 import 'package:spiri/features/splash/repo/splash.repo.dart';
 import 'package:spiri/route/router.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +19,6 @@ class Spiri extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => DashboardRepo()),
-          ChangeNotifierProvider(create: (_) => SignUpPageRepo()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

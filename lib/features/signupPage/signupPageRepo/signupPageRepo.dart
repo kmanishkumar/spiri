@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:async_loader/async_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -10,18 +6,16 @@ import 'package:spiri/model/getdetailsSignUp.dart';
 import 'package:spiri/services/errorHandler.dart';
 import 'package:spiri/services/network/dio_client.dart';
 
-class SignUpPageRepo extends ChangeNotifier {
-
+class SignUpPageRepo {
   GlobalKey<AsyncLoaderState> _globalKey = GlobalKey<AsyncLoaderState>();
 
   GlobalKey<AsyncLoaderState> get globalKey => _globalKey;
   RefreshController _refreshController =
-  RefreshController(initialRefresh: false);
+      RefreshController(initialRefresh: false);
 
   RefreshController get refreshController => _refreshController;
 
   static getAllCity() async {
-
     final _apiCall = RestClient(DioClient.getDio());
     return await _apiCall.getAllCity().then((data) {
       return data;
@@ -29,7 +23,6 @@ class SignUpPageRepo extends ChangeNotifier {
   }
 
   static getAllPhotos(token) async {
-
     final _apiCall = RestClient(DioClient.getDio());
     return await _apiCall.getAllPhotos(token).then((data) {
       return data;
