@@ -1,6 +1,9 @@
+import 'package:auto_route/auto_route_annotations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:retrofit/http.dart';
+import 'package:spiri/features/signupPage/models/getArea.model.dart';
+import 'package:spiri/features/signupPage/models/login.model.dart';
 import 'package:spiri/model/getdetailsSignUp.dart';
 import 'package:spiri/res/constant.dart';
 
@@ -14,6 +17,12 @@ abstract class RestClient {
 
   @GET("city/get")
   Future<List<CityModel>> getAllCity();
+
+  @GET("gpo/get")
+  Future<List<AreaModel>> getAllArea(@Query('city') String city);
+
+  @POST("user/register")
+  Future<LoginModel> createUser(@Body() body);
 
   @GET("api/v1/advertisement/get")
   Future<CityModel> getAllPhotos(@Header(authorization) auth);

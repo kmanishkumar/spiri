@@ -9,7 +9,7 @@ class CustomWidgets {
       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
       flushbarPosition: FlushbarPosition.TOP,
       onStatusChanged: ((callBack) {}),
-      backgroundColor: Colors.red[800],
+      backgroundColor: Colors.deepPurple,
       flushbarStyle: FlushbarStyle.FLOATING,
       boxShadows: [
         BoxShadow(
@@ -24,7 +24,7 @@ class CustomWidgets {
         child: Text(
           content,
           style:
-          TextStyle(color: Colors.white, fontFamily: 'QSM', fontSize: 20),
+              TextStyle(color: Colors.white, fontFamily: 'QSM', fontSize: 20),
         ),
       ),
     )..show(context);
@@ -52,7 +52,7 @@ class CustomWidgets {
         child: Text(
           content,
           style:
-          TextStyle(color: Colors.white, fontFamily: 'QSM', fontSize: 20),
+              TextStyle(color: Colors.white, fontFamily: 'QSM', fontSize: 20),
         ),
       ),
     )..show(context);

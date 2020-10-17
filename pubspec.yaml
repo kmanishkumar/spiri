@@ -45,6 +45,7 @@ dependencies:
   flutter_svg: ^0.18.0
   shimmer: ^1.1.1
   auto_size_text:
+  flutter_typeahead: ^1.8.8
   flushbar:
     git:
       url: git://github.com/KaushickSArgekar/flushbar

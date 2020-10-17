@@ -32,7 +32,7 @@
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
-            android:windowSoftInputMode="adjustResize" >
+            android:windowSoftInputMode="adjustPan|adjustResize" >
 
             <!--
                  Specifies an Android theme to apply to this Activity as soon as

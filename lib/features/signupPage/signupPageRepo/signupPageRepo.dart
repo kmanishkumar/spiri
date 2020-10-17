@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:async_loader/async_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,9 +24,24 @@ class SignUpPageRepo {
     }).catchError((e) => ErrorHandler.handleError(e));
   }
 
+  static getAllArea(city) async {
+    final _apiCall = RestClient(DioClient.getDio());
+    return await _apiCall.getAllArea(city).then((data) {
+      return data;
+    }).catchError((e) => ErrorHandler.handleError(e));
+  }
+
   static getAllPhotos(token) async {
     final _apiCall = RestClient(DioClient.getDio());
     return await _apiCall.getAllPhotos(token).then((data) {
+      return data;
+    }).catchError((e) => ErrorHandler.handleError(e));
+  }
+
+  static createUser(name, gpo) async {
+    Map map = {'name': name, 'gpo': gpo};
+    final _apiCall = RestClient(DioClient.getDio());
+    return await _apiCall.createUser(json.encode(map)).then((data) {
       return data;
     }).catchError((e) => ErrorHandler.handleError(e));
   }
