@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:spiri/common/customWidget.dart';
 import 'package:spiri/features/settingPage/setting.dart';
 import 'package:spiri/features/signupPage/signupPageRepo/signupPageRepo.dart';
+import 'package:spiri/features/uploadrequest/uploadRequest.dart';
+import 'package:spiri/model/advertisementModel.dart';
 import 'package:spiri/services/apicall.dart';
 import 'package:spiri/services/image_loading.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -68,7 +70,7 @@ class _HomeState extends State<Home> {
             onTap: ()=>{
                    pushNewScreen(
                      context,
-                    screen: SettingPage(),
+                    screen: UploadRequestPage(),
                     withNavBar: true, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
             )
@@ -78,25 +80,16 @@ class _HomeState extends State<Home> {
         )
       ],
     );
-//    var _asyncLoader = new AsyncLoader(
+
+//    final _asyncLoader = AsyncLoader(
 //      key: _asynckey,
-//      initState: () async => await _loadData(),
-//      renderLoad: () => Center(
-//          child: Center(child: CircularProgressIndicator(backgroundColor: Colors.blue))),
-//      renderError: ([error]) =>
-//          Center(child: Text('Sorry, there was an error')),
+//      initState: () => SignUpPageRepo.getAllPhotos(token),
+//      renderLoad: () => SizedBox(),
+//      renderError: ([err]) => Text("there was a error"),
 //      renderSuccess: ({data}) => _generateBody(data),
 //    );
-        final _asyncLoader =
-    Consumer<SignUpPageRepo>(builder: (context, value, child) {
-      return AsyncLoader(
-        key: value.globalKey,
-        initState: () => SignUpPageRepo.getAllPhotos(token),
-        renderLoad: () => SizedBox(),
-        renderError: ([err]) => Text("there was a error"),
-        renderSuccess: ({data}) => _generateBody(data),
-      );
-    });
+
+
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: _appBar,// this avoids the overflow error
@@ -104,20 +97,20 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-           _asyncLoader,
+
+           //_asyncLoader,
         ],
      )
     );
-//    return Container(
-//      child: Text("home"),
-//    );
   }
 
-  _generateBody( value) {
+  _generateBody(List<AdvertismentImageModel>  value) {
+    print(value);
     return   Container(
-            child:  Expanded(
-              child:  widgetList.length == 0 ? Center(child: Text("No Data", style: TextStyle())) : GridView.builder(
-                  itemCount: widgetList.length,
+            child:
+            Expanded(
+              child:  value.length == 0 ? Center(child: Text("No Data", style: TextStyle())) : GridView.builder(
+                  itemCount: value.length,
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
@@ -142,7 +135,7 @@ class _HomeState extends State<Home> {
                                 fit: StackFit.expand,
                                 children: <Widget>[
                                   CachedNetworkImage(
-                                    imageUrl:  "https://picsum.photos/250?image=9",
+                                    imageUrl:value[i].advertisementImage1,
                                     //list[i].photo[0].url,
                                     fit: BoxFit.fill,
                                     alignment: Alignment.center,

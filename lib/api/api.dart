@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:retrofit/http.dart';
+import 'package:spiri/model/advertisementModel.dart';
 import 'package:spiri/model/getdetailsSignUp.dart';
 import 'package:spiri/res/constant.dart';
 
@@ -16,5 +17,5 @@ abstract class RestClient {
   Future<List<CityModel>> getAllCity();
 
   @GET("api/v1/advertisement/get")
-  Future<CityModel> getAllPhotos(@Header(authorization) auth);
+  Future<List<AdvertismentImageModel>> getAllPhotos(@Header(authorization) auth);
 }
