@@ -56,6 +56,50 @@ class _RestClient implements RestClient {
   }
 
   @override
+  Future<List<GetCategoryModel>> getCategory(type) async {
+    ArgumentError.checkNotNull(type, 'type');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'request_type': type};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<List<dynamic>>('category/get',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map(
+            (dynamic i) => GetCategoryModel.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  Future<List<GetSubCategoryModel>> getSubCategory(token, categoryId) async {
+    ArgumentError.checkNotNull(token, 'token');
+    ArgumentError.checkNotNull(categoryId, 'categoryId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'category': categoryId};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<List<dynamic>>(
+        'api/v1/category/subcategory/get',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'Authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) =>
+            GetSubCategoryModel.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
   Future<LoginModel> createUser(body) async {
     ArgumentError.checkNotNull(body, 'body');
     const _extra = <String, dynamic>{};

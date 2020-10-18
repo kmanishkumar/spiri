@@ -6,10 +6,9 @@ import 'package:spiri/model/getdetailsSignUp.dart';
 
 import 'common_http.dart';
 
-
 class ApiCall {
-  HttpCall _httpCall = new HttpCall( );
-  final JsonDecoder _decoder = new JsonDecoder( );
+  HttpCall _httpCall = new HttpCall();
+  final JsonDecoder _decoder = new JsonDecoder();
   var statusCode;
   var convertRes;
 
@@ -32,5 +31,4 @@ class ApiCall {
           : ErrorModal.fromJson(convertRes);
     });
   }
-
 }

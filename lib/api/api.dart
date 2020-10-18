@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route_annotations.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:retrofit/http.dart';
+import 'package:spiri/SpirianRequest/models/get_category.model.dart';
+import 'package:spiri/SpirianRequest/models/get_sub_category.dart';
 import 'package:spiri/features/signupPage/models/getArea.model.dart';
 import 'package:spiri/features/signupPage/models/login.model.dart';
 import 'package:spiri/model/advertisementModel.dart';
@@ -21,6 +23,14 @@ abstract class RestClient {
 
   @GET("gpo/get")
   Future<List<AreaModel>> getAllArea(@Query('city') String city);
+
+  @GET("category/get")
+  Future<List<GetCategoryModel>> getCategory(
+      @Query('request_type') String type);
+
+  @GET("api/v1/category/subcategory/get")
+  Future<List<GetSubCategoryModel>> getSubCategory(
+      @Header(authorization) token, @Query('category') String categoryId);
 
   @POST("user/register")
   Future<LoginModel> createUser(@Body() body);

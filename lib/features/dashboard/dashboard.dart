@@ -9,21 +9,19 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:spiri/SpirianRequest/spirian.dart';
-import 'package:spiri/features/home/home.dart';
+import 'package:spiri/SpirianRequest/views/spirian.dart';
+import 'package:spiri/features/home/views/home.dart';
 import 'package:spiri/getquote/getquote.dart';
 import 'package:spiri/marketplace/marketplace.dart';
 import 'package:spiri/offer/offer.dart';
 import 'package:spiri/res/constant.dart';
+
 class DashboardPage extends StatefulWidget {
   @override
   _DashboardPageState createState() => _DashboardPageState();
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-
-
-
   PersistentTabController _controller;
 
   @override
@@ -49,27 +47,24 @@ class _DashboardPageState extends State<DashboardPage> {
         colorBehindNavBar: Colors.white,
       ),
       popAllScreensOnTapOfSelectedTab: true,
-      itemAnimationProperties: ItemAnimationProperties( // Navigation Bar's items animation properties.
+      itemAnimationProperties: ItemAnimationProperties(
+        // Navigation Bar's items animation properties.
         duration: Duration(milliseconds: 200),
         curve: Curves.ease,
       ),
-      screenTransitionAnimation: ScreenTransitionAnimation( // Screen transition animation on change of selected tab.
+      screenTransitionAnimation: ScreenTransitionAnimation(
+        // Screen transition animation on change of selected tab.
         animateTabTransition: true,
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style3, // Choose the nav bar style with this property.
+      navBarStyle:
+          NavBarStyle.style3, // Choose the nav bar style with this property.
     );
   }
 
   _buildScreens() {
-    return [
-      Home(),
-      SpirianRequest(),
-      Offer(),
-      GetQuote(),
-      MarketPlace()
-    ];
+    return [Home(), SpirianRequest(), Offer(), GetQuote(), MarketPlace()];
   }
 
   _navBarItems() {
@@ -78,16 +73,13 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: Column(
           children: [
             SvgPicture.asset(
-              home_logo,color: Colors.white,
+              home_logo, color: Colors.white,
               //alignment: Alignment.center,
               height: 25,
               width: 25,
             ),
             RichText(
-             text: TextSpan(
-               text: 'Home',style: TextStyle(fontSize: 10)
-             ),
-
+              text: TextSpan(text: 'Home', style: TextStyle(fontSize: 10)),
             )
           ],
         ),
@@ -96,17 +88,14 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: Column(
           children: [
             SvgPicture.asset(
-              spirianRequest,color: Colors.white,
+              spirianRequest, color: Colors.white,
               //alignment: Alignment.center,
               height: 25,
               width: 25,
             ),
             RichText(
               text: TextSpan(
-                  text: 'Spirian Request',style: TextStyle(fontSize: 10)
-
-              ),
-
+                  text: 'Spirian Request', style: TextStyle(fontSize: 10)),
             )
           ],
         ),
@@ -115,16 +104,13 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: Column(
           children: [
             SvgPicture.asset(
-              offer,color: Colors.white,
+              offer, color: Colors.white,
               //alignment: Alignment.center,
               height: 25,
               width: 25,
             ),
             RichText(
-              text: TextSpan(
-                  text: 'Offer',style: TextStyle(fontSize: 10)
-              ),
-
+              text: TextSpan(text: 'Offer', style: TextStyle(fontSize: 10)),
             )
           ],
         ),
@@ -133,16 +119,13 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: Column(
           children: [
             SvgPicture.asset(
-              getquote,color: Colors.white,
+              getquote, color: Colors.white,
               //alignment: Alignment.center,
               height: 25,
               width: 25,
             ),
             RichText(
-              text: TextSpan(
-                  text: 'Get Quote',style: TextStyle(fontSize: 10)
-              ),
-
+              text: TextSpan(text: 'Get Quote', style: TextStyle(fontSize: 10)),
             )
           ],
         ),
@@ -151,23 +134,18 @@ class _DashboardPageState extends State<DashboardPage> {
         icon: Column(
           children: [
             SvgPicture.asset(
-              marketplace,color: Colors.white,
+              marketplace, color: Colors.white,
               //alignment: Alignment.center,
               height: 25,
               width: 25,
             ),
             RichText(
               text: TextSpan(
-                  text: 'Market Place',style: TextStyle(fontSize: 10)
-              ),
-
+                  text: 'Market Place', style: TextStyle(fontSize: 10)),
             )
           ],
         ),
       ),
     ];
   }
-
-
-
 }

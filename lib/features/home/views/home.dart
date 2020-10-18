@@ -22,23 +22,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _asynckey = GlobalKey<AsyncLoaderState>();
   ApiCall apiCall = new ApiCall();
-  List<String> widgetList = ['A', 'B', 'C', 'D'];
   var token =
       "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3MSJ9.ENAkk5JWfjAPhn0ExjZFu45C8geMeqQ1PkIZI-EcqPPFY_8GY-RhHz-5Ub1qG9xrXHYRtIvPjYhXkbU-CA4chQ";
-  // Future _loadData() async {
-  //   try {
-  //     final result = await apiCall.getAllImage(null);
-  //     if (result != null) {
-  //       return result;
-  //     } else {
-  //       CustomWidgets.showSuccessFlushBar(
-  //           context, "Somthing went wrong");
-  //     }
-  //   } catch (e) {
-  //     CustomWidgets.showSuccessFlushBar(
-  //         context, "Somthing went wrong");
-  //   }
-  // }
   @override
   Widget build(BuildContext context) {
     final _appBar = AppBar(
@@ -79,72 +64,67 @@ class _HomeState extends State<Home> {
       ],
     );
 
-    final _asyncLoader = AsyncLoader(
+    final _asyncLoader = Center(
+        child: AsyncLoader(
       key: _asynckey,
       initState: () => SignUpPageRepo.getAllPhotos(token),
-      renderLoad: () => SizedBox(),
-      renderError: ([err]) => Text("there was a error"),
+      renderLoad: () => CircularProgressIndicator(),
+      renderError: ([err]) => Text("Error"),
       renderSuccess: ({data}) => _generateBody(data),
-    );
+    ));
 
     return Scaffold(
         resizeToAvoidBottomPadding: false,
         appBar: _appBar, // this avoids the overflow error
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _asyncLoader,
-          ],
-        ));
+        body: _asyncLoader);
   }
 
   _generateBody(List<AdvertismentImageModel> value) {
-    return Container(
-      child: Expanded(
-        child: value.length == 0
-            ? Center(child: Text("No Data", style: TextStyle()))
-            : GridView.builder(
-                itemCount: value.length,
+    return value.length == 0
+        ? Center(child: Text("No Data", style: TextStyle()))
+        : Flexible(
+            child: ListView.builder(
                 shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    childAspectRatio: (context.widthPx / 2.0 / 100)),
-                itemBuilder: (context, i) {
+                itemCount: 1,
+                itemBuilder: (BuildContext context, int index) {
                   return Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        SizedBox(
-                          height: 200,
-                          width: 180,
-                          child: Card(
-                            shape: CircleBorder(),
-                            clipBehavior: Clip.antiAlias,
-                            color: Colors.white,
-                            child: Stack(
-                              alignment: Alignment.center,
-                              fit: StackFit.expand,
-                              children: <Widget>[
-                                CachedNetworkImage(
-                                  imageUrl: value[i].advertisementImage1,
-                                  //list[i].photo[0].url,
-                                  fit: BoxFit.fill,
-                                  alignment: Alignment.center,
-                                  placeholder: (context, url) =>
-                                      FindLoveImageLoadingShimmer(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        _showimage(value[0].advertisementImage1),
+                        _showimage(value[0].advertisementImage2),
+                        _showimage(value[0].advertisementImage3),
+                        _showimage(value[0].advertisementImage4),
                       ],
                     ),
                   );
                 }),
+          );
+  }
+
+  _showimage(data) {
+    final height = MediaQuery.of(context).size.height / 5;
+    return SizedBox(
+      height: height,
+      width: height,
+      child: Card(
+        shape: CircleBorder(),
+        clipBehavior: Clip.antiAlias,
+        color: Colors.white,
+        child: Stack(
+          alignment: Alignment.center,
+          fit: StackFit.expand,
+          children: <Widget>[
+            CachedNetworkImage(
+              imageUrl: data,
+              fit: BoxFit.fill,
+              alignment: Alignment.center,
+              placeholder: (context, url) => FindLoveImageLoadingShimmer(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ],
+        ),
       ),
     );
   }
