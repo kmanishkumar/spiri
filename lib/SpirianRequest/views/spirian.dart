@@ -11,6 +11,7 @@ import 'package:spiri/SpirianRequest/views/sub_spirian_category.dart';
 import 'package:spiri/features/dashboard/repo/dashboard.repo.dart';
 import 'package:spiri/features/settingPage/setting.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:validators/validators.dart';
 
 class SpirianRequest extends StatefulWidget {
   @override
@@ -19,6 +20,9 @@ class SpirianRequest extends StatefulWidget {
 
 class _SpirianRequestState extends State<SpirianRequest> {
   TextEditingController _search = TextEditingController();
+  List<GetCategoryModel> _searchResult = [];
+  final _asynckey = GlobalKey();
+  bool _show = false;
   @override
   Widget build(BuildContext context) {
     final _appBar = AppBar(
@@ -69,85 +73,113 @@ class _SpirianRequestState extends State<SpirianRequest> {
   }
 
   _generateUI(List<GetCategoryModel> data) {
+    _searchResult = data;
+    List<GetCategoryModel> temp = [];
     final width = MediaQuery.of(context).size.width / 100;
     final height = MediaQuery.of(context).size.height / 100;
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: width * 5),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            TextField(
-              controller: _search,
-              minLines: 1,
-              textAlign: TextAlign.start,
-              decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.search),
-                  suffix: Text(
-                    "Search not found",
-                    style: TextStyle(
-                        color: Colors.red, fontWeight: FontWeight.bold),
-                  ),
-                  hintText: 'Search',
-                  hintStyle: TextStyle(color: Colors.grey, fontSize: 17)),
-            ),
-            SizedBox(height: 10),
-            Text("Service Categories"),
-            SizedBox(height: 10),
-            Container(
-              height: height * 30,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () => pushNewScreen(
-                        context,
-                        screen: SpirianSubCategory(cateroryId: data[index].id),
-                        withNavBar: true, // OPTIONAL VALUE. True by default.
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.only(right: 10),
-                        height: 100,
-                        width: 100,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              child: CachedNetworkImage(
-                                  imageUrl:
-                                      "https://images.unsplash.com/photo-1494548162494-384bba4ab999?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error)),
+        margin: EdgeInsets.symmetric(horizontal: width * 5),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              TextField(
+                onChanged: (text) {
+                  // print("data - $data - ${data.length}");
+                  // print("temp - $temp - ${temp.length}");
+                  // temp = ;
+                  // print("data1 - $data - ${data.length}");
+                  // print("temp1 - $temp - ${temp.length}");
+                  setState(() {
+                    _searchResult = List.from((data
+                        .where((i) => i.category.contains(text))
+                        .toList()));
+                    _show = false;
+                  });
+                  // if (temp.length > 0) {
+                  //   setState(() {
+                  //     _searchResult.clear();
+                  //     _searchResult.addAll(temp);
+                  //     _show = false;
+                  //   });
+                  // } else {
+                  //   setState(() {
+                  //     _show = true;
+                  //   });
+                  // }
+                },
+                controller: _search,
+                minLines: 1,
+                textAlign: TextAlign.start,
+                decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    suffix: Text(
+                      "${_show ? 'Search not found' : ''}",
+                      style: TextStyle(
+                          color: Colors.red, fontWeight: FontWeight.bold),
+                    ),
+                    hintText: 'Search',
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 17)),
+              ),
+              SizedBox(height: 10),
+              Text("Service Categories"),
+              SizedBox(height: 10),
+              Container(
+                  height: height * 30,
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _searchResult.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        print("_searchResult - ${_searchResult.length}");
+                        return GestureDetector(
+                          onTap: () => pushNewScreen(
+                            context,
+                            screen: SpirianSubCategory(
+                                cateroryId: _searchResult[index].id),
+                            withNavBar:
+                                true, // OPTIONAL VALUE. True by default.
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          ),
+                          child: Container(
+                            margin: EdgeInsets.only(right: 10),
+                            height: 100,
+                            width: 100,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                  child: CachedNetworkImage(
+                                      imageUrl:
+                                          "https://images.unsplash.com/photo-1494548162494-384bba4ab999?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+                                      // imageUrl: _searchResult[index].category,
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error)),
+                                ),
+                                SizedBox(height: 5),
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minWidth: 50,
+                                    maxWidth: 50,
+                                    minHeight: 15,
+                                    maxHeight: 15,
+                                  ),
+                                  child: AutoSizeText(
+                                    _searchResult[index].category,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 30.0, color: Colors.black),
+                                  ),
+                                )
+                              ],
                             ),
-                            SizedBox(height: 5),
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minWidth: 50,
-                                maxWidth: 50,
-                                minHeight: 15,
-                                maxHeight: 15,
-                              ),
-                              child: AutoSizeText(
-                                data[index].category,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 30.0, color: Colors.black),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-            )
-          ]),
-    );
+                          ),
+                        );
+                      }))
+            ]));
   }
 }

@@ -81,7 +81,6 @@ class _SpirianSubCategoryState extends State<SpirianSubCategory> {
       onTap: () => {},
       child: Container(
         margin: EdgeInsets.only(right: 10),
-        //  height: 100,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
