@@ -80,22 +80,7 @@ class _SpirianSubCategoryState extends State<SpirianSubCategory> {
     return GestureDetector(
       onTap: () => {},
       child: Container(
-        height: 400,
-        width: 400,
-
-        margin: EdgeInsets.only(top: 10,right: 10,left: 10),
-        decoration: BoxDecoration(
-          boxShadow: [
-          BoxShadow(color: Colors.cyanAccent, blurRadius: 30, spreadRadius: -2)
-        ],
-          border: Border.all(
-            color: Colors.white,
-            style: BorderStyle.solid,
-            width: 2.0,
-          ),
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
+        margin: EdgeInsets.only(right: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           // mainAxisAlignment: MainAxisAlignment.center,
