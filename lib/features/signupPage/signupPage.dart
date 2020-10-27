@@ -290,7 +290,9 @@ class _SignUpPageState extends State<SignUpPage>
                                         height: 50,
                                         width: 50,
                                         child: CachedNetworkImage(
-                                          imageUrl: data[index].cityImage,
+                                          imageUrl:  //"https://spiriprod.s3.ap-south-1.amazonaws.com/products/3/18_Costume_Jewelry_Shop-01.png",
+                                          // "http://via.placeholder.com/350x150",
+                                          data[index].cityImage,
                                           placeholder: (context, url) =>
                                               CircularProgressIndicator(),
                                           errorWidget: (context, url, error) =>

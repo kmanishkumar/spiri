@@ -1,9 +1,12 @@
+
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:async_loader/async_loader.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:spiri/common/customWidget.dart';
@@ -16,6 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+import 'package:geolocator/geolocator.dart';
 class UploadRequestPage extends StatefulWidget {
 
 
@@ -30,8 +34,68 @@ class _UploadRequestPageState extends State<UploadRequestPage> {
   TextEditingController timeCtl = TextEditingController();
   TextEditingController _titleOfReq = TextEditingController();
   TextEditingController _summaryofwork = TextEditingController();
+  Position _currentPosition;
+  String _currentAddress;
+  final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+  _getCurrentLocation() {
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      setState(() {
+        _currentPosition = position;
+      });
+      _getAddressFromLatLng();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+  _getAddressFromLatLng() async {
+    try {
+      List<Placemark> p = await geolocator.placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+      Placemark place = p[0];
+      setState(() {
+        _currentAddress = "${place.name},${place.subLocality},${place.locality},${place.administrativeArea}, ${place.postalCode}, ${place.country}";
+        _location.text=_currentAddress;
+        print("_currentAddress   $_currentAddress");
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+ // final f = new DateFormat('yyyy-MM-dd hh:mm');
+
+//  Text(f.format(new DateTime.fromMillisecondsSinceEpoch(values[index]["start_time"]*1000)));
   DateTime selectedDate = DateTime.now();
-  //FocusNode myFocusNode = new FocusNode();
+
+  File _image;
+
+  _imgFromCamera() async {
+    File image = await ImagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50
+    );
+
+    setState(() {
+      _image = image;
+    });
+  }
+
+  _imgFromGallery() async {
+    File image = await  ImagePicker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50
+    );
+
+    setState(() {
+      _image = image;
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+    _location = TextEditingController(text:_currentAddress );
+  }
+   //FocusNode myFocusNode = new FocusNode();
   @override
   Widget build(BuildContext context) {
 
@@ -201,6 +265,22 @@ class _UploadRequestPageState extends State<UploadRequestPage> {
                 ),
                ),
              ),
+//            ListView.builder(
+//                scrollDirection: Axis.horizontal,
+//                itemCount: _image.length,
+//                itemBuilder: (context,c)
+//                {
+//
+//                  return Card(
+//                    child: Image.file(_image[c],
+//                      fit: BoxFit.fill,
+//                      width: 400,
+//                      height: 400,
+//
+//                    ),
+//                  );
+//                }
+//            ),
              Center(
                child: GestureDetector(
                  child: Icon(
@@ -209,7 +289,7 @@ class _UploadRequestPageState extends State<UploadRequestPage> {
                    color: Colors.deepPurple,
                  ),
                  onTap: (){
-
+                   _showPicker(context);
                  },
                ),
              ),
@@ -252,6 +332,37 @@ class _UploadRequestPageState extends State<UploadRequestPage> {
 //    return Container(
 //      child: Text("home"),
 //    );
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () {
+                        _imgFromGallery();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () {
+                      _imgFromCamera();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+    );
   }
 
 

@@ -80,19 +80,34 @@ class _SpirianSubCategoryState extends State<SpirianSubCategory> {
     return GestureDetector(
       onTap: () => {},
       child: Container(
-        margin: EdgeInsets.only(right: 10),
-        //  height: 100,
+        height: 400,
+        width: 400,
+
+        margin: EdgeInsets.only(top: 10,right: 10,left: 10),
+        decoration: BoxDecoration(
+          boxShadow: [
+          BoxShadow(color: Colors.cyanAccent, blurRadius: 30, spreadRadius: -2)
+        ],
+          border: Border.all(
+            color: Colors.white,
+            style: BorderStyle.solid,
+            width: 2.0,
+          ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              height: 100,
-              child: CachedNetworkImage(
-                  imageUrl: data[0].subcategoryImage,
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error)),
-            ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+          Container(
+            margin: EdgeInsets.only(left: 10),
+            child: CachedNetworkImage(
+                imageUrl:
+                "https://picsum.photos/250?image=9",                  //data[0].subcategoryImage,
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error)),
+          ),
             SizedBox(height: 5),
             ConstrainedBox(
               constraints: BoxConstraints(
@@ -124,6 +139,53 @@ class _SpirianSubCategoryState extends State<SpirianSubCategory> {
           ],
         ),
       ),
+//      child: Container(
+//
+//      //  margin: EdgeInsets.only(right: 10),
+//        //  height: 100,
+//        child: Column(
+//          crossAxisAlignment: CrossAxisAlignment.start,
+//          mainAxisAlignment: MainAxisAlignment.start,
+//          children: <Widget>[
+//            Container(
+//
+//              child: CachedNetworkImage(
+//                  imageUrl:
+//                  "https://images.unsplash.com/photo-1494548162494-384bba4ab999?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",                  //data[0].subcategoryImage,
+//                  placeholder: (context, url) => CircularProgressIndicator(),
+//                  errorWidget: (context, url, error) => Icon(Icons.error)),
+//            ),
+//            SizedBox(height: 5),
+//            ConstrainedBox(
+//              constraints: BoxConstraints(
+//                minWidth: 50,
+//                maxWidth: 50,
+//                minHeight: 15,
+//                maxHeight: 15,
+//              ),
+//              child: AutoSizeText(
+//                data[0].subCategory,
+//                textAlign: TextAlign.center,
+//                style: TextStyle(fontSize: 30.0, color: Colors.black),
+//              ),
+//            ),
+//            SizedBox(height: 5),
+//            ConstrainedBox(
+//              constraints: BoxConstraints(
+//                minWidth: 50,
+//                maxWidth: 50,
+//                minHeight: 15,
+//                maxHeight: 15,
+//              ),
+//              child: AutoSizeText(
+//                data[0].content,
+//                textAlign: TextAlign.center,
+//                style: TextStyle(fontSize: 30.0, color: Colors.black),
+//              ),
+//            )
+//          ],
+//        ),
+//      ),
     );
   }
 }
