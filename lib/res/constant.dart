@@ -10,6 +10,7 @@ const BASE_API_URL = "https://";
 
 class PrefsConstants {
   static final token = "token";
+  static final id = "id";
   static final otp = "otp";
   static final firstName = "first_name";
   static final lastName = "last_name";
@@ -21,6 +22,7 @@ class PrefsConstants {
 
 class UserDetails {
   static final token = "token";
+  static final id = "id";
   static final firstName = "firstName";
   static final lastName = "last_name";
   static final email = "email";

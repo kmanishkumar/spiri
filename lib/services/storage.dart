@@ -16,6 +16,14 @@ class StorageService {
     return prefs.read(key: PrefsConstants.token);
   }
 
+  static setId(v) {
+    prefs.write(key: PrefsConstants.id, value: v);
+  }
+
+  static getId() {
+    return prefs.read(key: PrefsConstants.id);
+  }
+
   static setOtp(v) {
     prefs.write(key: PrefsConstants.otp, value: v);
   }

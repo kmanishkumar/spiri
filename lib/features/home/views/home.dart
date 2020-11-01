@@ -85,6 +85,7 @@ class _HomeState extends State<Home> {
                 shrinkWrap: true,
                 itemCount: 1,
                 itemBuilder: (BuildContext context, int index) {
+                  print(value[0].advertisementImage1);
                   return Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,

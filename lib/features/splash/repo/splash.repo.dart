@@ -11,24 +11,24 @@ import 'package:validators/validators.dart';
 
 class SplashRepo {
   static checkLogin(BuildContext context) async {
-    try {
-      Future.delayed(2.seconds, () async {
-        PackageInfo.fromPlatform().then((packageInfo) {
-          if (Platform.isAndroid) {
-            if (int.parse(packageInfo.buildNumber) <= 0) {
-              StorageService.clearPrefs();
-            }
-          } else if (Platform.isIOS) {
-            if (int.parse(packageInfo.buildNumber) <= 0) {
-              StorageService.clearPrefs();
-            }
-          }
-        });
-        final _token = await StorageService.getToken();
+    Future.delayed(2.seconds, () async {
+      // PackageInfo.fromPlatform().then((packageInfo) {
+      //   if (Platform.isAndroid) {
+      //     if (int.parse(packageInfo.buildNumber) <= 0) {
+      //       StorageService.clearPrefs();
+      //     }
+      //   } else if (Platform.isIOS) {
+      //     if (int.parse(packageInfo.buildNumber) <= 0) {
+      //       StorageService.clearPrefs();
+      //     }
+      //   }
+      // });
+      StorageService.clearPrefs();
+      final _token = await StorageService.getToken();
 
-        if (isNull(_token)) {
-          AppNavigator.pp(Routes.loginPage);
-        } else {
+      if (isNull(_token)) {
+        AppNavigator.pp(Routes.loginPage);
+      } else {
 //        final _provider = Provider.of<DashboardRepo>(context, listen: false);
 //
 //        final _token = await StorageService.getToken();
@@ -51,10 +51,7 @@ class SplashRepo {
 //        _provider.setUserDetails(map);
 //
 //        AppNavigator.pp(Routes.dashboardPage);
-        }
-      });
-    } catch (e) {
-      print(e);
-    }
+      }
+    });
   }
 }

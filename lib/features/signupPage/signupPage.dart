@@ -13,6 +13,7 @@ import 'package:spiri/features/signupPage/models/login.model.dart';
 import 'package:spiri/features/signupPage/signupPageRepo/signupPageRepo.dart';
 import 'package:spiri/model/getdetailsSignUp.dart';
 import 'package:spiri/services/apicall.dart';
+import 'package:spiri/services/storage.dart';
 import 'package:supercharged/supercharged.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -290,9 +291,7 @@ class _SignUpPageState extends State<SignUpPage>
                                         height: 50,
                                         width: 50,
                                         child: CachedNetworkImage(
-                                          imageUrl: data[index]
-                                              .cityImage
-                                              .replaceAll("\\", "/"),
+                                          imageUrl: data[index].cityImage,
                                           placeholder: (context, url) =>
                                               CircularProgressIndicator(),
                                           errorWidget: (context, url, error) =>
@@ -355,6 +354,8 @@ class _SignUpPageState extends State<SignUpPage>
     }
     try {
       LoginModel result = await SignUpPageRepo.createUser(name, gpo);
+      await StorageService.setId("${result.id}");
+      await StorageService.setToken("Bearer ${result.authToken}");
       CustomWidgets.showWarningFlushBar(context, result.msg);
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => DashboardPage()));

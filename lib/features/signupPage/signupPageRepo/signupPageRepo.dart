@@ -37,7 +37,7 @@ class SignUpPageRepo {
 
   static getAllPhotos() async {
     final _apiCall = RestClient(DioClient.getDio());
-    final token = StorageService.getToken();
+    final token = await StorageService.getToken();
     return await _apiCall.getAllPhotos(token).then((data) {
       return data;
     }).catchError((e) => ErrorHandler.handleError(e));
