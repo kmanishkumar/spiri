@@ -22,8 +22,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final _asynckey = GlobalKey<AsyncLoaderState>();
   ApiCall apiCall = new ApiCall();
-  var token =
-      "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI3MSJ9.ENAkk5JWfjAPhn0ExjZFu45C8geMeqQ1PkIZI-EcqPPFY_8GY-RhHz-5Ub1qG9xrXHYRtIvPjYhXkbU-CA4chQ";
   @override
   Widget build(BuildContext context) {
     final _appBar = AppBar(
@@ -67,7 +65,7 @@ class _HomeState extends State<Home> {
     final _asyncLoader = Center(
         child: AsyncLoader(
       key: _asynckey,
-      initState: () => SignUpPageRepo.getAllPhotos(token),
+      initState: () => SignUpPageRepo.getAllPhotos(),
       renderLoad: () => CircularProgressIndicator(),
       renderError: ([err]) => Text("Error"),
       renderSuccess: ({data}) => _generateBody(data),
@@ -117,7 +115,7 @@ class _HomeState extends State<Home> {
           fit: StackFit.expand,
           children: <Widget>[
             CachedNetworkImage(
-              imageUrl: data,
+              imageUrl: SignUpPageRepo.getImageUrl(data),
               fit: BoxFit.fill,
               alignment: Alignment.center,
               placeholder: (context, url) => FindLoveImageLoadingShimmer(),

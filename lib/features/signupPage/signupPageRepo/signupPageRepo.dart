@@ -7,6 +7,7 @@ import 'package:spiri/api/api.dart';
 import 'package:spiri/model/getdetailsSignUp.dart';
 import 'package:spiri/services/errorHandler.dart';
 import 'package:spiri/services/network/dio_client.dart';
+import 'package:spiri/services/storage.dart';
 
 class SignUpPageRepo {
   GlobalKey<AsyncLoaderState> _globalKey = GlobalKey<AsyncLoaderState>();
@@ -16,6 +17,9 @@ class SignUpPageRepo {
       RefreshController(initialRefresh: false);
 
   RefreshController get refreshController => _refreshController;
+  static getImageUrl(url) {
+    return url.replaceAll("\\", "/");
+  }
 
   static getAllCity() async {
     final _apiCall = RestClient(DioClient.getDio());
@@ -31,8 +35,9 @@ class SignUpPageRepo {
     }).catchError((e) => ErrorHandler.handleError(e));
   }
 
-  static getAllPhotos(token) async {
+  static getAllPhotos() async {
     final _apiCall = RestClient(DioClient.getDio());
+    final token = StorageService.getToken();
     return await _apiCall.getAllPhotos(token).then((data) {
       return data;
     }).catchError((e) => ErrorHandler.handleError(e));
