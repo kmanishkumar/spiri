@@ -2,11 +2,12 @@ import 'package:prefs_guard/prefsguard.dart';
 import 'package:spiri/res/constant.dart';
 
 class StorageService {
-  static final prefs = PrefsGuard( GuardType.AES );
+  static final prefs = PrefsGuard(GuardType.AES);
 
   static clearPrefs() {
     prefs.clearAll();
   }
+
   static setToken(v) {
     prefs.write(key: PrefsConstants.token, value: v);
   }
@@ -20,7 +21,6 @@ class StorageService {
   }
 
   static getOtp() async {
-    return prefs.read(key:PrefsConstants.otp);
+    return prefs.read(key: PrefsConstants.otp);
   }
-
 }
